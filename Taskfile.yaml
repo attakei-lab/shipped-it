@@ -1,0 +1,8 @@
+version: '3'
+
+tasks:
+  setup-dev:
+    desc: 'Setup workspace'
+    cmds:
+      - 'uv sync --all-groups --frozen'
+      - 'lefthook install'

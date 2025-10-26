@@ -1,0 +1,27 @@
+[project]
+name = "shiped-it"
+version = "0.0.0"
+description = "Personal tool to post announcement about product releases."
+readme = "README.md"
+requires-python = ">=3.13"
+classifiers = [
+    "Private :: Do Not Upload",
+]
+dependencies = [
+    "shipedit",
+]
+
+[tool.uv.workspace]
+members = [
+    "packages/shiped-it",
+    "packages/shipedit",
+]
+
+[tool.uv.sources]
+shipedit = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.2",
+    "ty>=0.0.1a24",
+]
