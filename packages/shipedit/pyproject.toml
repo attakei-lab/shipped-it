@@ -7,7 +7,9 @@ authors = [
     { name = "Kazuya Takei", email = "myself@attakei.net" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "pydantic-settings>=2.11.0",
+]
 
 [project.scripts]
 shiped-it = "shipedit.cli:main"
