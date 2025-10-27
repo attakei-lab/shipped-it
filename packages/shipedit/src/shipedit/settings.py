@@ -1,3 +1,4 @@
+import os
 import tomllib
 from pathlib import Path
 from typing import Any
@@ -24,6 +25,8 @@ def discover_settings_file() -> Path:
     candicates = [
         Path.cwd() / "settings.toml",
     ]
+    if "SHIPEDIT_SETTINGS_FILE" in os.environ:
+        candicates.insert(0, Path(os.environ["SHIPEDIT_SETTINGS_FILE"]))
     for c in candicates:
         if c.exists():
             return c

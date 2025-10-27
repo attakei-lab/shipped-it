@@ -1,5 +1,6 @@
 import logging
 
+import dotenv
 from pydantic import FilePath, ValidationError
 from pydantic_settings import BaseSettings, CliApp, CliPositionalArg, SettingsConfigDict
 
@@ -20,6 +21,7 @@ class CliSettings(BaseSettings):
 
 def main() -> int:
     logging.basicConfig(level=logging.INFO)
+    dotenv.load_dotenv()
     try:
         args = CliApp.run(CliSettings)
         logging.debug("Arguments: %s %s", args.package, args.name)

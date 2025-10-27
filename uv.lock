@@ -298,6 +298,7 @@ source = { editable = "packages/shipedit" }
 dependencies = [
     { name = "jinja2" },
     { name = "pydantic-settings" },
+    { name = "python-dotenv" },
     { name = "requests" },
 ]
 
@@ -305,6 +306,7 @@ dependencies = [
 requires-dist = [
     { name = "jinja2", specifier = ">=3.1.6" },
     { name = "pydantic-settings", specifier = ">=2.11.0" },
+    { name = "python-dotenv", specifier = ">=1.2.1" },
     { name = "requests", specifier = ">=2.32.5" },
 ]
 
