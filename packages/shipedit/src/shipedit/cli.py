@@ -6,7 +6,7 @@ from pydantic_settings import BaseSettings, CliApp, CliPositionalArg, SettingsCo
 
 from .notifier import load_notifier
 from .package import load_package
-from .settings import load_settings, discover_settings_file
+from .settings import load_settings, discover_settings_file, set_app_settings
 
 
 class CliSettings(BaseSettings):
@@ -28,6 +28,7 @@ def main() -> int:
         if args.settings_path is None:
             args.settings_path = discover_settings_file()
         settings = load_settings(args.settings_path)
+        set_app_settings(settings)
     except ValidationError as e:
         print(f"Error: {e}")
         return 1

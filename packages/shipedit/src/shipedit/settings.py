@@ -9,6 +9,7 @@ from pydantic_settings import BaseSettings
 
 class NotifierSettings(BaseModel):
     template: str
+    options: dict[str, Any] = Field(default_factory=dict)
 
 
 class PackageSettings(BaseModel):
@@ -18,10 +19,11 @@ class PackageSettings(BaseModel):
 
 
 class AppSettings(BaseSettings):
+    credential: dict[str, dict[str, Any]]
     package: dict[str, PackageSettings]
 
 
-def discover_settings_file() -> Path:
+def discover_settings_file(arg: Path | None = None) -> Path:
     candicates = [
         Path.cwd() / "settings.toml",
     ]
@@ -35,3 +37,19 @@ def discover_settings_file() -> Path:
 
 def load_settings(path: Path) -> AppSettings:
     return AppSettings.model_validate(tomllib.loads(path.read_text(encoding="utf-8")))
+
+
+_settings: AppSettings | None = None
+
+
+def get_app_settings() -> AppSettings:
+    if _settings is None:
+        raise ValueError("Settings not initialized.")
+    return _settings
+
+
+def set_app_settings(settings: AppSettings):
+    global _settings
+    if _settings is not None:
+        raise ValueError("Settings is already initialized.")
+    _settings = settings

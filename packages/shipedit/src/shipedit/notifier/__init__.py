@@ -10,6 +10,7 @@ from ..settings import NotifierSettings
 class Notifier(BaseModel):
     name: str
     template: str
+    options: BaseModel
 
     @abc.abstractmethod
     def push(self, context: dict[str, Any]): ...
@@ -22,4 +23,8 @@ def load_notifier(name: str, settings: NotifierSettings) -> Notifier:
         return name
 
     module = importlib.import_module(_resolve_module(name))
-    return module.Notifier(name=name, template=settings.template)  # type: ignore[unresolved-attribute]
+    return module.Notifier(  # type: ignore[unresolved-attribute]
+        name=name,
+        template=settings.template,
+        options=settings.options,
+    )
