@@ -1,0 +1,9 @@
+[package.pypi.notifier.console]
+template = """
+{{name}} v{{version}} is released. Thank you for using!
+
+- PyPI: https://pypi.org/project/{{name}}/{{version}}/
+{% if github -%}
+- GH: {{ github.url }}/releases/tag/v{{version}}
+{%- endif %}
+"""
