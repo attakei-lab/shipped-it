@@ -37,12 +37,12 @@ def main() -> int:
     if args.source not in settings.source:
         print(f"Error: Package '{args.source}' not found in settings.")
         return 1
-    pkg_settings = settings.source[args.source]
-    package = load_source(args.source, pkg_settings.options)
-    context = package.build_context(args.release)
+    src_settings = settings.source[args.source]
+    source = load_source(args.source, src_settings.options)
+    context = source.build_context(args.release)
     publishers = [
         load_publisher(name, settings)
-        for name, settings in pkg_settings.publisher.items()
+        for name, settings in src_settings.publisher.items()
     ]
     for p in publishers:
         p.publish(context)

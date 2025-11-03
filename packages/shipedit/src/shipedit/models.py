@@ -8,15 +8,8 @@ class Source(BaseModel):
 
     name: str
     """Source name to manage in this application."""
-    provider: str | None = None
-    """Type name of this source."""
-
-    def get_provider(self) -> str:
-        """Retrive provider name.
-
-        ``provider`` may be ``None``. If ``provider`` is ``None``, it returns value of ``name``.
-        """
-        return self.provider or self.name
+    module: str | None = None
+    """Module name that includes som behaviors source."""
 
 
 class Release(BaseModel):
@@ -31,3 +24,10 @@ class Release(BaseModel):
     """
     version: str | None = None
     """It is set when release has revesion."""
+
+
+class Publisher(BaseModel):
+    name: str
+    """Publisher name to manage in this application."""
+    module: str | None = None
+    """Module name that includes som behaviors publisher."""

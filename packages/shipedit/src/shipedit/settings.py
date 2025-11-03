@@ -15,7 +15,7 @@ class PublisherSettings(BaseModel):
 class SourceSettings(BaseModel):
     publisher: dict[str, PublisherSettings]
     options: dict[str, Any] = Field(default_factory=dict)
-    provider: str | None = None
+    module: str | None = None
 
 
 class AppSettings(BaseSettings):
