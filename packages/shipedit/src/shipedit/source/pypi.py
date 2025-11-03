@@ -4,7 +4,7 @@ from typing import Any, TypedDict
 import requests
 from pydantic import BaseModel, HttpUrl
 
-from . import App as AppBase
+from . import Source as SourceBase
 
 
 class Options(BaseModel):
@@ -18,7 +18,7 @@ class Context(TypedDict):
     github: dict[str, Any] | None
 
 
-class App(AppBase):
+class Source(SourceBase):
     name: str
     options: Options
 

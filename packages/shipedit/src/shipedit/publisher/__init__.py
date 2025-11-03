@@ -4,26 +4,26 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from ..settings import NotifierSettings
+from ..settings import PublisherSettings
 
 
-class Notifier(BaseModel):
+class Publisher(BaseModel):
     name: str
     template: str
     options: BaseModel
 
     @abc.abstractmethod
-    def push(self, context: dict[str, Any]): ...
+    def publish(self, context: dict[str, Any]): ...
 
 
-def load_notifier(name: str, settings: NotifierSettings) -> Notifier:
+def load_publisher(name: str, settings: PublisherSettings) -> Publisher:
     def _resolve_module(name: str):
         if "." not in name:
             return f"{__name__}.{name}"
         return name
 
     module = importlib.import_module(_resolve_module(name))
-    return module.Notifier(  # type: ignore[unresolved-attribute]
+    return module.Publisher(  # type: ignore[unresolved-attribute]
         name=name,
         template=settings.template,
         options=settings.options,

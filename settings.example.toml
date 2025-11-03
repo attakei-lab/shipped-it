@@ -1,4 +1,4 @@
-[package.pypi.notifier.console]
+[source.pypi.publisher.console]
 template = """
 {{name}} v{{version}} is released. Thank you for using!
 

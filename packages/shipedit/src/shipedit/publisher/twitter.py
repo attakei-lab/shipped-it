@@ -10,7 +10,7 @@ from pydantic import BaseModel
 
 from ..settings import get_app_settings
 
-from . import Notifier as NotifierBase
+from . import Publisher as PublisherBase
 
 
 class Context(TypedDict):
@@ -38,14 +38,14 @@ class AppCredentials(BaseModel):
         )
 
 
-class NotifierOptions(BaseModel):
+class PublisherOptions(BaseModel):
     credential: str
 
 
-class Notifier(NotifierBase):
-    options: NotifierOptions
+class Publisher(PublisherBase):
+    options: PublisherOptions
 
-    def push(self, context: Context):
+    def publish(self, context: Context):
         tool_settings = get_app_settings().credential[self.options.credential]
         cred = AppCredentials(**tool_settings)
         tmpl = jinja2.Template(self.template)
