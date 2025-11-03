@@ -6,3 +6,7 @@ tasks:
     cmds:
       - 'uv sync --all-groups --frozen'
       - 'lefthook install'
+  verify:
+    desc: 'Verify workspace'
+    cmds:
+      - 'lefthook run pre-commit --all-files'
