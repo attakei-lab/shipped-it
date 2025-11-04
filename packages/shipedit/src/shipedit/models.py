@@ -1,7 +1,7 @@
 """Domain models."""
 
 import abc
-from typing import Any
+from typing import Any, Protocol, runtime_checkable
 
 from pydantic import BaseModel
 
@@ -48,3 +48,15 @@ class Publisher[T_O = BaseModel](BaseModel, metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def publish(self, release: Release): ...
+
+
+@runtime_checkable
+class SourceModule(Protocol):
+    Options: type[BaseModel]
+    Source: type[Source]
+
+
+@runtime_checkable
+class PublisherModule(Protocol):
+    Options: type[BaseModel]
+    Publisher: type[Publisher]

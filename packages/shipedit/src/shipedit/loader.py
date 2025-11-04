@@ -3,19 +3,24 @@ from importlib import import_module
 from . import models, settings
 
 
-def load_source[T_O](
-    name: str, settings: settings.SourceSettings
-) -> models.Source[T_O]:
+def load_source(name: str, settings: settings.SourceSettings) -> models.Source:
     fullname = settings.module or f"shipedit.source.{name}"
     module = import_module(fullname)
-    klass = getattr(module, "Source")
-    return klass(name=name, options=settings.options)
+    if not isinstance(module, models.SourceModule):
+        raise ValueError("Loaded module is not source.")
+    return module.Source(
+        name=name,
+        options=settings.options,  # type: ignore[invalid-argument-type] - It converts automately by Pydantic.
+    )
 
 
-def load_publisher[T_O](
-    name: str, settings: settings.PublisherSettings
-) -> models.Publisher[T_O]:
+def load_publisher(name: str, settings: settings.PublisherSettings) -> models.Publisher:
     fullname = settings.module or f"shipedit.publisher.{name}"
     module = import_module(fullname)
-    klass = getattr(module, "Publisher")
-    return klass(name=name, template=settings.template, options=settings.options)
+    if not isinstance(module, models.PublisherModule):
+        raise ValueError("Loaded module is not publisher.")
+    return module.Publisher(
+        name=name,
+        template=settings.template,
+        options=settings.options,  # type: ignore[invalid-argument-type] - It converts automately by Pydantic.
+    )
