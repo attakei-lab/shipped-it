@@ -1,16 +1,22 @@
-from typing import TypedDict
+from typing import TypedDict, override
 
 import jinja2
+from pydantic import BaseModel
 
-from . import Publisher as PublisherBase
+from .. import models
+
+
+class Options(BaseModel):
+    pass
 
 
 class Context(TypedDict):
     name: str
-    version: str
+    revision: str
 
 
-class Publisher(PublisherBase):
-    def publish(self, context: Context):
-        tmpl = jinja2.Template(self.template)
-        print(tmpl.render(context))
+class Publisher(models.Publisher[Options]):
+    @override
+    def publish(self, release: models.Release):
+        tmpl = jinja2.Template(self.template or "")
+        print(tmpl.render(release.to_context()))

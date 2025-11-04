@@ -4,8 +4,7 @@ import dotenv
 from pydantic import FilePath, ValidationError
 from pydantic_settings import BaseSettings, CliApp, CliPositionalArg, SettingsConfigDict
 
-from .publisher import load_publisher
-from .source import load_source
+from . import loader
 from .settings import load_settings, discover_settings_file, set_app_settings
 
 
@@ -38,12 +37,12 @@ def main() -> int:
         print(f"Error: Package '{args.source}' not found in settings.")
         return 1
     src_settings = settings.source[args.source]
-    source = load_source(args.source, src_settings.options)
-    context = source.build_context(args.release)
+    source = loader.load_source(args.source, src_settings)
+    release = source.make_release(args.release)
     publishers = [
-        load_publisher(name, settings)
+        loader.load_publisher(name, settings)
         for name, settings in src_settings.publisher.items()
     ]
     for p in publishers:
-        p.publish(context)
+        p.publish(release)
     return 0

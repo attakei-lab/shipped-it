@@ -2,15 +2,18 @@
 
 from __future__ import annotations
 
-from typing import TypedDict
+from typing import TypedDict, override
 
 import jinja2
 import tweepy
 from pydantic import BaseModel
 
+from .. import models
 from ..settings import get_app_settings
 
-from . import Publisher as PublisherBase
+
+class Options(BaseModel):
+    credential: str
 
 
 class Context(TypedDict):
@@ -38,15 +41,10 @@ class AppCredentials(BaseModel):
         )
 
 
-class PublisherOptions(BaseModel):
-    credential: str
-
-
-class Publisher(PublisherBase):
-    options: PublisherOptions
-
-    def publish(self, context: Context):
+class Publisher(models.Publisher[Options]):
+    @override
+    def publish(self, release: models.Release):
         tool_settings = get_app_settings().credential[self.options.credential]
         cred = AppCredentials(**tool_settings)
-        tmpl = jinja2.Template(self.template)
-        cred.create_client().create_tweet(text=tmpl.render(context))
+        tmpl = jinja2.Template(self.template or "")
+        cred.create_client().create_tweet(text=tmpl.render(release.to_context()))

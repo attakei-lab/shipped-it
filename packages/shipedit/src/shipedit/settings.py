@@ -10,6 +10,7 @@ from pydantic_settings import BaseSettings
 class PublisherSettings(BaseModel):
     template: str
     options: dict[str, Any] = Field(default_factory=dict)
+    module: str | None = None
 
 
 class SourceSettings(BaseModel):

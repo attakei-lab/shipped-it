@@ -1,10 +1,10 @@
 from functools import lru_cache
-from typing import Any, TypedDict
+from typing import Any, TypedDict, override
 
 import requests
 from pydantic import BaseModel, HttpUrl
 
-from . import Source as SourceBase
+from .. import models
 
 
 class Options(BaseModel):
@@ -13,23 +13,24 @@ class Options(BaseModel):
 
 
 class Context(TypedDict):
-    name: str
-    version: str
     github: dict[str, Any] | None
 
 
-class Source(SourceBase):
-    name: str
-    options: Options
-
-    def build_context(self, name: str) -> Context:
-        data_url = f"https://pypi.org/pypi/{name}/json"
+class Source(models.Source[Options]):
+    @override
+    def make_release(self, release_name: str) -> models.Release:
+        data_url = f"https://pypi.org/pypi/{release_name}/json"
         data = fetch_project_data(data_url)
-        return {
-            "name": data.info.name,
-            "version": data.info.version,
-            "github": find_github_data(data.info),
-        }
+
+        release = models.Release(
+            source=self,  # type: ignore[invalid-argument-type]
+            name=data.info.name,
+            revision=data.info.version,
+            extra={
+                "github": find_github_data(data.info),
+            },
+        )
+        return release
 
 
 class ProjectInfo(BaseModel):
