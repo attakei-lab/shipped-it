@@ -40,6 +40,25 @@ class Release(BaseModel):
         } | (self.extra or {})
 
 
+class Storage[T_O = BaseModel](BaseModel, metaclass=abc.ABCMeta):
+    """Datastorage adaper."""
+
+    options: T_O
+    """Option values for methods."""
+
+    @abc.abstractmethod
+    def open(self) -> None: ...
+
+    @abc.abstractmethod
+    def close(self) -> None: ...
+
+    @abc.abstractmethod
+    def find_release(self, source: str, name: str) -> Release | None: ...
+
+    @abc.abstractmethod
+    def save_release(self, release: Release, force: bool = False) -> None: ...
+
+
 class Publisher[T_O = BaseModel](BaseModel, metaclass=abc.ABCMeta):
     """Publishing component for release entity."""
 
@@ -60,6 +79,14 @@ class SourceModule(Protocol):
 
     Options: type[BaseModel]
     Source: type[Source]
+
+
+@runtime_checkable
+class StorageModule(Protocol):
+    """Protocol that defines requirements as 'Storage' module."""
+
+    Options: type[BaseModel]
+    Storage: type[Storage]
 
 
 @runtime_checkable
