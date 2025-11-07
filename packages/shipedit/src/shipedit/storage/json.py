@@ -38,7 +38,9 @@ class Storage(models.Storage[Options]):
     def open(self) -> None:
         if not self.options.path.exists():
             self.options.path.write_text(json.dumps(init_storage()))
-        self.data = StorageData.model_validate(json.loads(self.options.path.read_text()))
+        self.data = StorageData.model_validate(
+            json.loads(self.options.path.read_text())
+        )
 
     @override
     def close(self) -> None:
@@ -60,6 +62,8 @@ class Storage(models.Storage[Options]):
         self.data.releases[release.source.name].setdefault(release.name, {})
         releases = self.data.releases[release.source.name][release.name]
         if release.revision not in releases or force:
-            releases[release.revision] = ReleaseData.model_validate(release.model_dump())
+            releases[release.revision] = ReleaseData.model_validate(
+                release.model_dump()
+            )
             return True
         return False
