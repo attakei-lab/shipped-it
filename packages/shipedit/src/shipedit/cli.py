@@ -32,6 +32,11 @@ def main() -> int:
         print(f"Error: {e}")
         return 1
 
+    # Initialize storage
+    if settings.storage:
+        storage = loader.load_storage(settings.storage)
+        storage.open()
+
     # Loading package app
     if args.source not in settings.source:
         print(f"Error: Package '{args.source}' not found in settings.")
@@ -39,10 +44,19 @@ def main() -> int:
     src_settings = settings.source[args.source]
     source = loader.load_source(args.source, src_settings)
     release = source.make_release(args.release)
+    if settings.storage:
+        if storage.exists_release(release):
+            print(f"Release '{args.release}' already exists in storage.")
+            storage.close()
+            return 0
+        storage.save_release(release)
     publishers = [
         loader.load_publisher(name, settings)
         for name, settings in src_settings.publisher.items()
     ]
     for p in publishers:
         p.publish(release)
+
+    if settings.storage:
+        storage.close()
     return 0

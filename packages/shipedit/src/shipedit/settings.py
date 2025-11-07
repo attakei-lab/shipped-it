@@ -19,7 +19,13 @@ class SourceSettings(BaseModel):
     module: str | None = None
 
 
+class StorageSettings(BaseModel):
+    module: str
+    options: dict[str, Any] = Field(default_factory=dict)
+
+
 class AppSettings(BaseSettings):
+    storage: StorageSettings | None = None
     credential: dict[str, dict[str, Any]] = Field(default_factory=dict)
     source: dict[str, SourceSettings]
 
