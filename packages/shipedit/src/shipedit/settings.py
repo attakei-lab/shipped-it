@@ -7,20 +7,27 @@ from pydantic import BaseModel, Field
 from pydantic_settings import BaseSettings
 
 
-class NotifierSettings(BaseModel):
+class PublisherSettings(BaseModel):
     template: str
-    options: dict[str, Any] = Field(default_factory=dict)
-
-
-class PackageSettings(BaseModel):
-    notifier: dict[str, NotifierSettings]
     options: dict[str, Any] = Field(default_factory=dict)
     module: str | None = None
 
 
+class SourceSettings(BaseModel):
+    publisher: dict[str, PublisherSettings]
+    options: dict[str, Any] = Field(default_factory=dict)
+    module: str | None = None
+
+
+class StorageSettings(BaseModel):
+    module: str
+    options: dict[str, Any] = Field(default_factory=dict)
+
+
 class AppSettings(BaseSettings):
-    credential: dict[str, dict[str, Any]]
-    package: dict[str, PackageSettings]
+    storage: StorageSettings | None = None
+    credential: dict[str, dict[str, Any]] = Field(default_factory=dict)
+    source: dict[str, SourceSettings]
 
 
 def discover_settings_file(arg: Path | None = None) -> Path:
