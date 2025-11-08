@@ -37,15 +37,13 @@ class Storage(models.Storage[Options]):
     @override
     def open(self) -> None:
         if not self.options.path.exists():
-            self.options.path.write_text(json.dumps(init_storage()))
+            self.close()
         self.data = StorageData.model_validate(
             json.loads(self.options.path.read_text())
         )
 
     @override
     def close(self) -> None:
-        if "revision" not in self.data:
-            self.data.revision = CURRENT_REVISION
         self.options.path.write_text(self.data.model_dump_json())
 
     @override
