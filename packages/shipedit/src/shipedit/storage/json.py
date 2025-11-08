@@ -29,6 +29,7 @@ class Options(BaseModel):
     """Options for the JSON storage."""
 
     path: Path
+    indent: int | None = None
 
 
 class Storage(models.Storage[Options]):
@@ -44,7 +45,7 @@ class Storage(models.Storage[Options]):
 
     @override
     def close(self) -> None:
-        self.options.path.write_text(self.data.model_dump_json())
+        self.options.path.write_text(self.data.model_dump_json(indent=self.options.indent))
 
     @override
     def exists_release(self, release: models.Release) -> bool:
