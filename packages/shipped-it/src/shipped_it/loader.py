@@ -9,7 +9,7 @@ def load_source(name: str, settings: settings.SourceSettings) -> models.Source:
     If ``settings.module`` is valid string, load module from value.
     If ``settings.module`` is ``None``, load bundled module from ``name``.
     """
-    fullname = settings.module or f"shipedit.source.{name}"
+    fullname = settings.module or f"shipped_it.source.{name}"
     module = import_module(fullname)
     if not isinstance(module, models.SourceModule):
         raise ValueError("Loaded module is not source.")
@@ -27,7 +27,7 @@ def load_storage(settings: settings.StorageSettings) -> models.Storage:
     """
     fullname = settings.module
     if "." not in fullname:
-        fullname = f"shipedit.storage.{settings.module}"
+        fullname = f"shipped_it.storage.{settings.module}"
     module = import_module(fullname)
     if not isinstance(module, models.StorageModule):
         raise ValueError("Loaded module is not source.")
@@ -42,7 +42,7 @@ def load_publisher(name: str, settings: settings.PublisherSettings) -> models.Pu
     If ``settings.module`` is valid string, load module from value.
     If ``settings.module`` is ``None``, load bundled module from ``name``.
     """
-    fullname = settings.module or f"shipedit.publisher.{name}"
+    fullname = settings.module or f"shipped_it.publisher.{name}"
     module = import_module(fullname)
     if not isinstance(module, models.PublisherModule):
         raise ValueError("Loaded module is not publisher.")

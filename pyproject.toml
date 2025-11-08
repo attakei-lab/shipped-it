@@ -1,5 +1,5 @@
 [project]
-name = "shiped-it"
+name = "shipped-it-workspace"
 version = "0.0.0"
 description = "Personal tool to post announcement about product releases."
 readme = "README.md"
@@ -8,17 +8,16 @@ classifiers = [
     "Private :: Do Not Upload",
 ]
 dependencies = [
-    "shipedit",
+    "shipped_it",
 ]
 
 [tool.uv.workspace]
 members = [
-    "packages/shiped-it",
-    "packages/shipedit",
+    "packages/shipped-it",
 ]
 
 [tool.uv.sources]
-shipedit = { workspace = true }
+shipped-it = { workspace = true }
 
 [dependency-groups]
 dev = [
