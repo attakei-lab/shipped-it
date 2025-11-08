@@ -299,7 +299,6 @@ dependencies = [
     { name = "jinja2" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
-    { name = "python-dotenv" },
     { name = "requests" },
     { name = "tweepy" },
 ]
@@ -309,7 +308,6 @@ requires-dist = [
     { name = "jinja2", specifier = ">=3.1.6" },
     { name = "pydantic", specifier = ">=2.12.3" },
     { name = "pydantic-settings", specifier = ">=2.11.0" },
-    { name = "python-dotenv", specifier = ">=1.2.1" },
     { name = "requests", specifier = ">=2.32.5" },
     { name = "tweepy", specifier = ">=4.16.0" },
 ]
@@ -319,11 +317,19 @@ name = "shipped-it-cli"
 version = "0.1.0"
 source = { editable = "packages/shipped-it-cli" }
 dependencies = [
+    { name = "pydantic" },
+    { name = "pydantic-settings" },
+    { name = "python-dotenv" },
     { name = "shipped-it" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "shipped-it", editable = "packages/shipped-it" }]
+requires-dist = [
+    { name = "pydantic", specifier = ">=2.12.3" },
+    { name = "pydantic-settings", specifier = ">=2.11.0" },
+    { name = "python-dotenv", specifier = ">=1.2.1" },
+    { name = "shipped-it", editable = "packages/shipped-it" },
+]
 
 [[package]]
 name = "shipped-it-workspace"
