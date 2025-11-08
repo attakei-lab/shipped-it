@@ -5,6 +5,7 @@ requires-python = ">=3.13"
 [manifest]
 members = [
     "shipped-it",
+    "shipped-it-cli",
     "shipped-it-workspace",
 ]
 
@@ -314,11 +315,23 @@ requires-dist = [
 ]
 
 [[package]]
+name = "shipped-it-cli"
+version = "0.1.0"
+source = { editable = "packages/shipped-it-cli" }
+dependencies = [
+    { name = "shipped-it" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "shipped-it", editable = "packages/shipped-it" }]
+
+[[package]]
 name = "shipped-it-workspace"
 version = "0.0.0"
 source = { virtual = "." }
 dependencies = [
     { name = "shipped-it" },
+    { name = "shipped-it-cli" },
 ]
 
 [package.dev-dependencies]
@@ -328,7 +341,10 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "shipped-it", editable = "packages/shipped-it" }]
+requires-dist = [
+    { name = "shipped-it", editable = "packages/shipped-it" },
+    { name = "shipped-it-cli", editable = "packages/shipped-it-cli" },
+]
 
 [package.metadata.requires-dev]
 dev = [

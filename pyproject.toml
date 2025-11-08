@@ -8,16 +8,19 @@ classifiers = [
     "Private :: Do Not Upload",
 ]
 dependencies = [
+    "shipped-it-cli",
     "shipped_it",
 ]
 
 [tool.uv.workspace]
 members = [
     "packages/shipped-it",
+    "packages/shipped-it-cli",
 ]
 
 [tool.uv.sources]
 shipped-it = { workspace = true }
+shipped-it-cli = { workspace = true }
 
 [dependency-groups]
 dev = [
