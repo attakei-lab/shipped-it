@@ -1,5 +1,5 @@
 [project]
-name = "shiped-it"
+name = "shipped-it-workspace"
 version = "0.0.0"
 description = "Personal tool to post announcement about product releases."
 readme = "README.md"
@@ -13,7 +13,6 @@ dependencies = [
 
 [tool.uv.workspace]
 members = [
-    "packages/shiped-it",
     "packages/shipedit",
 ]
 
