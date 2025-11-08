@@ -34,8 +34,8 @@ def discover_settings_file(arg: Path | None = None) -> Path:
     candicates = [
         Path.cwd() / "settings.toml",
     ]
-    if "SHIPEDIT_SETTINGS_FILE" in os.environ:
-        candicates.insert(0, Path(os.environ["SHIPEDIT_SETTINGS_FILE"]))
+    if "SHIPPEDIT_SETTINGS_FILE" in os.environ:
+        candicates.insert(0, Path(os.environ["SHIPPEDIT_SETTINGS_FILE"]))
     for c in candicates:
         if c.exists():
             return c

@@ -4,7 +4,7 @@ requires-python = ">=3.13"
 
 [manifest]
 members = [
-    "shipedit",
+    "shipped-it",
     "shipped-it-workspace",
 ]
 
@@ -291,9 +291,9 @@ wheels = [
 ]
 
 [[package]]
-name = "shipedit"
+name = "shipped-it"
 version = "0.1.0"
-source = { editable = "packages/shipedit" }
+source = { editable = "packages/shipped-it" }
 dependencies = [
     { name = "jinja2" },
     { name = "pydantic" },
@@ -318,7 +318,7 @@ name = "shipped-it-workspace"
 version = "0.0.0"
 source = { virtual = "." }
 dependencies = [
-    { name = "shipedit" },
+    { name = "shipped-it" },
 ]
 
 [package.dev-dependencies]
@@ -328,7 +328,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "shipedit", editable = "packages/shipedit" }]
+requires-dist = [{ name = "shipped-it", editable = "packages/shipped-it" }]
 
 [package.metadata.requires-dev]
 dev = [

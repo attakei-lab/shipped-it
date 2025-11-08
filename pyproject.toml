@@ -8,16 +8,16 @@ classifiers = [
     "Private :: Do Not Upload",
 ]
 dependencies = [
-    "shipedit",
+    "shipped_it",
 ]
 
 [tool.uv.workspace]
 members = [
-    "packages/shipedit",
+    "packages/shipped-it",
 ]
 
 [tool.uv.sources]
-shipedit = { workspace = true }
+shipped-it = { workspace = true }
 
 [dependency-groups]
 dev = [

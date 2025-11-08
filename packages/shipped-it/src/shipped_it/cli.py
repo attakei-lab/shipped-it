@@ -13,7 +13,7 @@ class CliSettings(BaseSettings):
 
     settings_path: FilePath | None = None
     source: CliPositionalArg[str]
-    """Package type of that shiped."""
+    """Package type of that shipped."""
     release: CliPositionalArg[str]
     """Name of target package."""
 
