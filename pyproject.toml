@@ -21,6 +21,15 @@ shipped-it = { workspace = true }
 
 [dependency-groups]
 dev = [
+    "doc8>=2.0.0",
     "ruff>=0.14.2",
     "ty>=0.0.1a24",
+    { include-group = "docs" },
 ]
+docs = [
+    "sphinx>=8.2.3",
+    "sphinx-autobuild>=2025.8.25",
+]
+
+[tool.doc8]
+ignore = ["D004"]
