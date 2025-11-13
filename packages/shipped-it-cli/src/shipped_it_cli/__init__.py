@@ -79,7 +79,7 @@ def main() -> int:
         for name, settings in src_settings.publisher.items()
     ]
     for p in publishers:
-        p.publish(release)
+        p.publish(release, args.extra_values)
 
     if settings.storage:
         storage.close()

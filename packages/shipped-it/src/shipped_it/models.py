@@ -5,6 +5,8 @@ from typing import Any, Protocol, runtime_checkable
 
 from pydantic import BaseModel
 
+__EMPTY_DICT = {}
+
 
 class Source[T_O = BaseModel](BaseModel, metaclass=abc.ABCMeta):
     """Source of releases."""
@@ -70,7 +72,7 @@ class Publisher[T_O = BaseModel](BaseModel, metaclass=abc.ABCMeta):
     """Message template to publish release entity."""
 
     @abc.abstractmethod
-    def publish(self, release: Release): ...
+    def publish(self, release: Release, extra_values: dict[str, str]): ...
 
 
 @runtime_checkable

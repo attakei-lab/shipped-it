@@ -43,8 +43,10 @@ class AppCredentials(BaseModel):
 
 class Publisher(models.Publisher[Options]):
     @override
-    def publish(self, release: models.Release):
+    def publish(self, release: models.Release, extra_values: dict[str, str]):
         tool_settings = get_app_settings().credential[self.options.credential]
         cred = AppCredentials(**tool_settings)
         tmpl = jinja2.Template(self.template or "")
-        cred.create_client().create_tweet(text=tmpl.render(release.to_context()))
+        cred.create_client().create_tweet(
+            text=tmpl.render(release.to_context(), extra=extra_values)
+        )
