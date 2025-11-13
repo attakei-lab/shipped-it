@@ -28,6 +28,32 @@ jobs:
       - name: 'Run linters'
         run: |
           lefthook run pre-commit --all-files
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: ['3.13']
+        workspace: ['locked', 'latest']
+        package:
+          - 'shipped-it'
+          - 'shipped-it-cli'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: aquaproj/aqua-installer@ea518c135a02fc11ff8024364510c181a5c6b342 # v4.0.3
+        with:
+          aqua_version: v2.51.2
+      - name: Set up Python ${{ matrix.python-version }}
+        run: 'echo ${{ matrix.python-version }} > .python-version'
+      - name: 'Configure env as locked deps by uv.lock'
+        run: 'uv sync --all-extras --frozen'
+        if: ${{ matrix.workspace == 'locked'}}
+      - name: 'Configure env as latest deps on PyPI'
+        run: 'uv sync --all-extras -U'
+        if: ${{ matrix.workspace == 'latest'}}
+      - name: Run tests
+        run: |
+          uv run --directory=packages/${{ matrix.package }} pytest
   doctest:
     runs-on: ubuntu-latest
     steps:

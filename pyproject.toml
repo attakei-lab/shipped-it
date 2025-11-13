@@ -25,6 +25,7 @@ shipped-it-cli = { workspace = true }
 [dependency-groups]
 dev = [
     "doc8>=2.0.0",
+    "pytest>=9.0.1",
     "ruff>=0.14.2",
     "ty>=0.0.1a24",
     { include-group = "docs" },
