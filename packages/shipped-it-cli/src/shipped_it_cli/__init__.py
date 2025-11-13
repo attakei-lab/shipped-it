@@ -1,11 +1,10 @@
 import logging
 
 import dotenv
-from pydantic import FilePath, ValidationError
+from pydantic import AliasChoices, Field, FilePath, ValidationError, field_validator
 from pydantic_settings import BaseSettings, CliApp, CliPositionalArg, SettingsConfigDict
-
 from shipped_it import loader
-from shipped_it.settings import load_settings, discover_settings_file, set_app_settings
+from shipped_it.settings import discover_settings_file, load_settings, set_app_settings
 
 
 class CliSettings(BaseSettings):
@@ -16,6 +15,31 @@ class CliSettings(BaseSettings):
     """Package type of that shipped."""
     release: CliPositionalArg[str]
     """Name of target package."""
+    extra_values: dict[str, str] = Field(
+        default_factory=dict,
+        validation_alias=AliasChoices("e", "extra-values"),
+        json_schema_extra={"cli": {"nargs": "+"}},
+    )
+    """Values passed template context, this must be list of ``KEY=VALUE`` style string."""
+
+    @field_validator("extra_values", mode="before")
+    @classmethod
+    def _parse_key_pairs(cls, items: list[str] | dict):
+        if isinstance(items, dict):
+            return items
+
+        if not isinstance(items, list):
+            raise ValueError("Invalid format")
+
+        result = {}
+        for item in items:
+            if isinstance(item, str) and "=" in item:
+                key, value = item.split("=", 1)
+                result[key] = value
+            else:
+                raise ValueError("Invalid value")
+
+        return result
 
 
 def main() -> int:
