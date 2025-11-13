@@ -4,8 +4,8 @@ import dotenv
 from pydantic import FilePath, ValidationError
 from pydantic_settings import BaseSettings, CliApp, CliPositionalArg, SettingsConfigDict
 
-from . import loader
-from .settings import load_settings, discover_settings_file, set_app_settings
+from shipped_it import loader
+from shipped_it.settings import load_settings, discover_settings_file, set_app_settings
 
 
 class CliSettings(BaseSettings):
